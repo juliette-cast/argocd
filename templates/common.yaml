@@ -33,3 +33,4 @@ egressd:
   enabled: true
   createNamespace: false
   clusterID: {{ include "uuidFromName" .Values.clusterName }}
+
