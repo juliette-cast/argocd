@@ -28,8 +28,5 @@ gpu-metrics-exporter:
   enabled: false
   createNamespace: false
 
-# ✅ FIXED: Ensure egressd gets clusterID
-egressd:
-  enabled: false
-  createNamespace: false
+
 
