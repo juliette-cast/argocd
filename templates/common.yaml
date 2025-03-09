@@ -30,7 +30,6 @@ gpu-metrics-exporter:
 
 # ✅ FIXED: Ensure egressd gets clusterID
 egressd:
-  enabled: true
+  enabled: false
   createNamespace: false
-  clusterID: {{ include "uuidFromName" .Values.clusterName }}
 
