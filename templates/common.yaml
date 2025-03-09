@@ -24,10 +24,6 @@ castai-spot-handler:
   enabled: false
   createNamespace: false
 
-egressd:
-  enabled: false
-  createNamespace: false
-
 gpu-metrics-exporter:
   enabled: false
   createNamespace: false
