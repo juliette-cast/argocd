@@ -2,53 +2,50 @@ apiVersion: v2
 name: castai-autoscaler
 description: A Helm chart for Kubernetes
 
-# Chart type: 'application' or 'library'. Here, we want 'application'.
+# This chart is an 'application' type.
 type: application
 
-# Increment this whenever you make changes to the chart.
+# Bump this version each time you change the chart.
 version: 0.1.0
 
-# The version of the application being deployed.
+# The version of your application being deployed.
 appVersion: "1.16.0"
 
-# If you're using the official CAST AI Helm repo, add it as a source.
-sources:
-  - https://castai.github.io/helm-charts
+# Remove or comment out any "sources" block referencing @castai-helm.
+# Instead, reference the real URL for each dependency below.
 
-# Dependencies for all CAST AI components.
 dependencies:
-  - condition: castai-cluster-controller.enabled
-    name: castai-cluster-controller
-    repository: "@castai-helm"
+  - name: castai-cluster-controller
     version: 0.80.2
+    repository: "https://castai.github.io/helm-charts"
+    condition: castai-cluster-controller.enabled
 
-  - condition: castai-evictor.enabled
-    name: castai-evictor
-    repository: "@castai-helm"
+  - name: castai-evictor
     version: 0.31.49
+    repository: "https://castai.github.io/helm-charts"
+    condition: castai-evictor.enabled
 
-  - condition: castai-pod-mutator.enabled
-    name: castai-pod-mutator
-    repository: "@castai-helm"
+  - name: castai-pod-mutator
     version: 0.0.15
+    repository: "https://castai.github.io/helm-charts"
+    condition: castai-pod-mutator.enabled
 
-  - condition: castai-pod-pinner.enabled
-    name: castai-pod-pinner
-    repository: "@castai-helm"
+  - name: castai-pod-pinner
     version: 1.2.0
+    repository: "https://castai.github.io/helm-charts"
+    condition: castai-pod-pinner.enabled
 
-  - condition: castai-spot-handler.enabled
-    name: castai-spot-handler
-    repository: "@castai-helm"
+  - name: castai-spot-handler
     version: 0.26.0
+    repository: "https://castai.github.io/helm-charts"
+    condition: castai-spot-handler.enabled
 
-  - condition: egressd.enabled
-    name: egressd
-    repository: "@castai-helm"
+  - name: egressd
     version: 0.1.42
+    repository: "https://castai.github.io/helm-charts"
+    condition: egressd.enabled
 
-  - condition: gpu-metrics-exporter.enabled
-    name: gpu-metrics-exporter
-    repository: "@castai-helm"
+  - name: gpu-metrics-exporter
     version: 0.1.18
-
+    repository: "https://castai.github.io/helm-charts"
+    condition: gpu-metrics-exporter.enabled
