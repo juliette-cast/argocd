@@ -5,7 +5,7 @@ castai-cluster-controller:
   createNamespace: false
   castai:
     apiKeySecretRef: castai-agent
-    # Use the helper to generate a unique ID from clusterName
+    # Generate a unique ID from clusterName
     clusterID: {{ include "uuidFromName" .Values.clusterName }}
 
 castai-evictor:
@@ -28,10 +28,8 @@ gpu-metrics-exporter:
   enabled: false
   createNamespace: false
 
-# ✅ FIXED: Added egressd with clusterID
+# ✅ FIXED: Ensure egressd gets clusterID
 egressd:
   enabled: true
   createNamespace: false
   clusterID: {{ include "uuidFromName" .Values.clusterName }}
-
-
