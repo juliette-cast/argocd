@@ -64,16 +64,17 @@ Create the name of the service account to use
 {{- define "uuidFromName" -}}
 {{- $name := printf "%s" . | trim -}}
 {{- /*
-    1. Hash the input name (sha256)
-    2. Take the first 32 hex chars
-    3. Insert dashes to make 8-4-4-4-12
+    1. sha256sum of the input name (64 hex chars).
+    2. Take the first 32 chars (giving us a 32-length string).
+    3. Use a regex to split it into 8-4-4-4-12.
 */ -}}
-{{- $hash := (sha256sum $name) | substr 0 32 -}}
-{{- printf "%s-%s-%s-%s-%s" 
-    ($hash | substr 0 8) 
-    ($hash | substr 8 4) 
-    ($hash | substr 12 4) 
-    ($hash | substr 16 4) 
-    ($hash | substr 20 12) 
--}}
+{{- $fullHash := sha256sum $name -}}
+{{- $hash := $fullHash | substr 0 32 -}}
+{{- $matches := regexFindSubmatch "^(.{8})(.{4})(.{4})(.{4})(.{12})$" $hash -}}
+
+{{- if eq (len $matches) 6 -}}
+  {{- printf "%s-%s-%s-%s-%s" (index $matches 1) (index $matches 2) (index $matches 3) (index $matches 4) (index $matches 5) -}}
+{{- else -}}
+  invalid-uuid
+{{- end -}}
 {{- end -}}
