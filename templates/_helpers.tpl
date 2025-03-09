@@ -80,3 +80,4 @@ Generate a deterministic UUID-like string from a cluster name by:
 {{- $part5 := $hash32 | substr 20 32 -}}  {{/* 20..32 = 12 chars */}}
 {{- printf "%s-%s-%s-%s-%s" $part1 $part2 $part3 $part4 $part5 -}}
 {{- end -}}
+
