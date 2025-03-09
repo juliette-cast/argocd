@@ -28,3 +28,10 @@ gpu-metrics-exporter:
   enabled: false
   createNamespace: false
 
+# ✅ FIXED: Added egressd with clusterID
+egressd:
+  enabled: true
+  createNamespace: false
+  clusterID: {{ include "uuidFromName" .Values.clusterName }}
+
+
