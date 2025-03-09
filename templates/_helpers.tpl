@@ -61,20 +61,22 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+{{/*
+Generate a deterministic UUID-like string from a cluster name by:
+1. Computing the SHA256 sum (64 hex chars).
+2. Taking the first 32 chars.
+3. Splitting into 8-4-4-4-12 using end-index slicing.
+*/}}
 {{- define "uuidFromName" -}}
 {{- $name := printf "%s" . | trim -}}
-{{- /*
-    1. sha256sum of the input name (64 hex chars).
-    2. Take the first 32 chars (giving us a 32-length string).
-    3. Use a regex to split it into 8-4-4-4-12.
-*/ -}}
 {{- $fullHash := sha256sum $name -}}
-{{- $hash := $fullHash | substr 0 32 -}}
-{{- $matches := regexFindSubmatch "^(.{8})(.{4})(.{4})(.{4})(.{12})$" $hash -}}
-
-{{- if eq (len $matches) 6 -}}
-  {{- printf "%s-%s-%s-%s-%s" (index $matches 1) (index $matches 2) (index $matches 3) (index $matches 4) (index $matches 5) -}}
-{{- else -}}
-  invalid-uuid
-{{- end -}}
+{{- /* Take the first 32 hex chars */ -}}
+{{- $hash32 := $fullHash | substr 0 32 -}}
+{{- /* Slices use [start:end] indexing */ -}}
+{{- $part1 := $hash32 | substr 0 8 -}}    {{/*  0..8   = 8 chars  */}}
+{{- $part2 := $hash32 | substr 8 12 -}}   {{/*  8..12 = 4 chars  */}}
+{{- $part3 := $hash32 | substr 12 16 -}}  {{/* 12..16 = 4 chars  */}}
+{{- $part4 := $hash32 | substr 16 20 -}}  {{/* 16..20 = 4 chars  */}}
+{{- $part5 := $hash32 | substr 20 32 -}}  {{/* 20..32 = 12 chars */}}
+{{- printf "%s-%s-%s-%s-%s" $part1 $part2 $part3 $part4 $part5 -}}
 {{- end -}}
