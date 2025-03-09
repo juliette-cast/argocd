@@ -69,5 +69,11 @@ Create the name of the service account to use
     3. Insert dashes to make 8-4-4-4-12
 */ -}}
 {{- $hash := (sha256sum $name) | substr 0 32 -}}
-{{- printf "%s-%s-%s-%s-%s" (substr $hash 0 8) (substr $hash 8 4) (substr $hash 12 4) (substr $hash 16 4) (substr $hash 20 12) -}}
+{{- printf "%s-%s-%s-%s-%s" 
+    ($hash | substr 0 8) 
+    ($hash | substr 8 4) 
+    ($hash | substr 12 4) 
+    ($hash | substr 16 4) 
+    ($hash | substr 20 12) 
+-}}
 {{- end -}}
